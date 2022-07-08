@@ -24,7 +24,7 @@ public class DB {
 		}  
 		
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mavericks_75545"
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce_team1"
 					,"root","Password123");
 			//System.out.println("Connection Established..");
 		} catch (SQLException e) {
