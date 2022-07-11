@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.main.model.Employee;
+
 import com.main.model.Product;
 import com.main.model.Vendor;
 
@@ -41,17 +41,39 @@ public class DB {
 		}
 	}
 
-	public void insertEmployee(Employee employee) {
+	
+	/*
+	 *  
+	 */
+	public void insertCustomer(Customer customer) {
 		 dbConnect();
-		 String sql="insert into employee(name,city,salary,departmentName) "
+		 String sql="insert into customer(name,password,balance) "
 		 		+ "values (?,?,?,?)";
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, employee.getName());
-			pstmt.setString(2, employee.getCity());
-			pstmt.setDouble(3, employee.getSalary());
-			pstmt.setString(4, employee.getDepartmentName());
+			pstmt.setString(1, customer.getName());
+			pstmt.setString(2, customer.getPassword());
+			pstmt.setDouble(3, customer.getBalance());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 
+		 dbClose();
+	}
+	public void insertVendor(Vendor vendor) {
+		 dbConnect();
+		 String sql="insert into vendor(VendorName,password,balance) "
+		 		+ "values (?,?,?,?)";
+		 
+		 try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, customer.getvendorName());
+			pstmt.setString(2, customer.getPassword());
+			pstmt.setDouble(3, customer.getBalance());
 			
 			pstmt.executeUpdate();
 			
@@ -62,20 +84,19 @@ public class DB {
 		 dbClose();
 	}
 
-	public List<Employee> fetchEmployees() {
+	public List<Customer> fetchCustomers() {
 		dbConnect();
-		String sql="select * from employee";
-		List<Employee> list = new ArrayList<>();
+		String sql="select * from customer";
+		List<Customer> list = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet  rst = pstmt.executeQuery();
 			
 			while(rst.next()) {
-				list.add(new Employee(rst.getInt("id"),
+				list.add(new Customer(rst.getInt("id"),
 									  rst.getString("name"),
-									  rst.getString("city"), 
-									  rst.getDouble("salary"),
-									  rst.getString("departmentName")
+									  rst.getString("password"), 
+									  rst.getDouble("balance"),
 									  ));
 			}
 		} catch (SQLException e) {
@@ -85,74 +106,20 @@ public class DB {
 		return list;
 	}
 
-	public void deleteEmployee(int id) {
+	public List<Vendor> fetchVendors() {
 		dbConnect();
-		String sql="delete from employee where id=?";
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, id);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		dbClose();
-	}
-
-	public Employee fetchEmployee(int id) {
-		dbConnect();
-		String sql="select * from employee where id=?";
-		Employee e = new Employee(); 
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, id);
-			ResultSet  rst = pstmt.executeQuery();
-			rst.next();
-			e = new Employee(rst.getInt("id"),
-					  rst.getString("name"),
-					  rst.getString("city"), 
-					  rst.getDouble("salary"),
-					  rst.getString("departmentName")
-					  );
-			
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		dbClose();
-		return e;
-	}
-
-	public void updateEmployee(Employee employee) {
-		dbConnect();
-		String sql="update employee SET name=?,city=?,salary=?,departmentName=? where id=?";
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, employee.getName());
-			pstmt.setString(2, employee.getCity());
-			pstmt.setDouble(3, employee.getSalary());
-			pstmt.setString(4, employee.getDepartmentName());
-			pstmt.setInt(5, employee.getId());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		dbClose();
-	}
-
-	public List<Product> fetchAllProductsWithVendor() {
-		dbConnect();
-		List<Product> list = new ArrayList<>();
-		String sql="select * from product p JOIN vendor v ON p.vendor_id = v.id";
+		String sql="select * from vendor";
+		List<Vendor> list = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet  rst = pstmt.executeQuery();
 			
 			while(rst.next()) {
-				list.add(new Product(rst.getInt("id"), 
-						rst.getString("name"), 
-						rst.getDouble("price"),
-						new Vendor(rst.getInt("vendor_id"),
-								   rst.getString(6))));
-				
+				list.add(new Vendor(rst.getInt("id"),
+									  rst.getString("vendorName"),
+									  rst.getString("password"), 
+									  rst.getDouble("balance"),
+									  ));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,20 +127,5 @@ public class DB {
 		dbClose();
 		return list;
 	}
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
