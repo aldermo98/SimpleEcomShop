@@ -39,6 +39,20 @@ public class MenuService {
 			if (customerLogin(name, pass)) {
 				System.out.println("Welcome " + name);
 				//go to customer Menu
+				CustomerMenuService customerMenuService = new CustomerMenuService();
+				while(true) {
+		            int customerInput = customerMenuService.displayCustomerMenuAndReadInput();
+		            if(customerInput == 0) {
+		                System.out.println("Exiting...");
+		                break;
+		            }
+		            else if(customerInput==7) {
+		            	System.out.println("Exiting to E-Commerce Main Menu");
+		            	break;
+		            }
+		            customerMenuService.processMenuInput(customerInput);
+		        }
+				
 			}
 			else {
 				System.out.println("Incorrect login");
