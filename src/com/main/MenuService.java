@@ -1,6 +1,10 @@
 package com.main;
 
+import java.util.List;
 import java.util.Scanner;
+
+import com.main.model.Customer;
+import com.main.model.Vendor;
 
 public class MenuService {
 	
@@ -17,8 +21,6 @@ public class MenuService {
 		
 		int input = sc.nextInt();
 		
-		
-		
 		return input;
 	}
 
@@ -34,7 +36,13 @@ public class MenuService {
 			System.out.println("Enter password: ");
 			String pass = sc.next();
 			//customer login
-			//db.customerValidate(name,pass)
+			if (customerLogin(name, pass)) {
+				System.out.println("Welcome " + name);
+				//go to customer Menu
+			}
+			else {
+				System.out.println("Incorrect login");
+			}
 			
 			break;
 		case 2:
@@ -45,7 +53,13 @@ public class MenuService {
 			System.out.println("Enter password: ");
 			pass = sc.next();
 			//vendor check
-			//db.vendorValidate(name,pass)
+			if (vendorLogin(name, pass)) {
+				System.out.println("Welcome " + name);
+				//go to vendor Menu
+			}
+			else {
+				System.out.println("Incorrect login");
+			}
 			
 			break;
 			
@@ -71,5 +85,35 @@ public class MenuService {
 			System.out.println("Invalid input");
 			break;
 		}
+	}
+	
+	public boolean customerLogin(String name, String pass) {
+		//call db.fetchCustomers into a list
+		List<Customer> customerList = db.fetchCustomers();
+		
+		for (Customer c : customerList) {
+			if (c.getName() == name) {
+				if (c.getPassword() == pass) {
+					return true;
+				}
+				else return false;
+			}
+		}
+		return false;
+	}
+	
+	public boolean vendorLogin(String name, String pass) {
+		//call db.fetchVendors into a list
+		List<Vendor> vendorList = db.fetchVendors();
+		
+		for (Vendor v : vendorList) {
+			if (v.getVendorName() == name) {
+				if (v.getPassword() == pass) {
+					return true;
+				}
+				else return false;
+			}
+		}
+		return false;
 	}
 }
