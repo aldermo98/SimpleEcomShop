@@ -1,11 +1,5 @@
 package com.main;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
-import com.main.db.DB;
-
 public class App {
 	public static void main(String[]args) {
 				
@@ -19,11 +13,6 @@ public class App {
             }
             menuService.processMenuInput(input);
         }
-        
-        
-		//DB db = new DB();
-		
-		
 	}
 }
 

@@ -3,12 +3,15 @@ package com.main;
 import java.util.List;
 import java.util.Scanner;
 
+import com.main.db.DB;
 import com.main.model.Customer;
 import com.main.model.Vendor;
 
 public class MenuService {
 	
 	private Scanner sc = new Scanner(System.in);
+
+	DB db = new DB();	
 
 	public int displayMenuAndReadInput() {
 		System.out.println("******E-Commerce Main Menu******");

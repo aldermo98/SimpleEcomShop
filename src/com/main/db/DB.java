@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.main.model.Product;
+import com.main.model.Customer;
 import com.main.model.Vendor;
 
 public class DB {
@@ -71,9 +70,9 @@ public class DB {
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, customer.getvendorName());
-			pstmt.setString(2, customer.getPassword());
-			pstmt.setDouble(3, customer.getBalance());
+			pstmt.setString(1, vendor.getVendorName());
+			pstmt.setString(2, vendor.getPassword());
+			pstmt.setDouble(3, vendor.getBalance());
 			
 			pstmt.executeUpdate();
 			
@@ -96,7 +95,7 @@ public class DB {
 				list.add(new Customer(rst.getInt("id"),
 									  rst.getString("name"),
 									  rst.getString("password"), 
-									  rst.getDouble("balance"),
+									  rst.getDouble("balance")
 									  ));
 			}
 		} catch (SQLException e) {
@@ -118,7 +117,7 @@ public class DB {
 				list.add(new Vendor(rst.getInt("id"),
 									  rst.getString("vendorName"),
 									  rst.getString("password"), 
-									  rst.getDouble("balance"),
+									  rst.getDouble("balance")
 									  ));
 			}
 		} catch (SQLException e) {
