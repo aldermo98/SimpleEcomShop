@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.main.model.Customer;
 import com.main.model.Vendor;
@@ -47,7 +48,7 @@ public class DB {
 	public void insertCustomer(Customer customer) {
 		 dbConnect();
 		 String sql="insert into customer(name,password,balance) "
-		 		+ "values (?,?,?,?)";
+		 		+ "values (?,?,?)";
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -125,6 +126,46 @@ public class DB {
 		}
 		dbClose();
 		return list;
+	}
+	
+	public void addNew(int input) {
+		dbConnect();
+		Scanner sc = new Scanner(System.in);
+		if(input == 1) {//Customer
+			System.out.println("Input name: ");
+			String name = sc.next();
+			System.out.println("Input password: ");
+			String pass = sc.next();
+			System.out.println("Input balance: ");
+			double balance = sc.nextDouble();
+			
+			Customer c = new Customer();
+			c.setName(name);
+			c.setPassword(pass);
+			c.setBalance(balance);
+			
+			insertCustomer(c);
+		}
+
+		else if(input == 2) {//Vendor
+			System.out.println("Input name: ");
+			String name = sc.next();
+			System.out.println("Input password: ");
+			String pass = sc.next();
+			System.out.println("Input balance: ");
+			double balance = sc.nextDouble();
+			
+			Vendor v = new Vendor();
+			v.setVendorName(name);
+			v.setPassword(pass);
+			v.setBalance(balance);
+			
+			insertVendor(v);
+		}
+		else {
+			System.out.println("Invalid input");
+		}
+		dbClose();
 	}
 	
 }

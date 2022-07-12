@@ -22,7 +22,7 @@ public class MenuService {
 		System.out.println("0. Exit");
 		System.out.println("Enter your choice: ");
 		
-		int input = sc.nextInt();
+		int input = sc.nextInt();	
 		
 		return input;
 	}
@@ -34,8 +34,7 @@ public class MenuService {
 		case 1:
 			System.out.println("******Customer Login******");
 			System.out.println("Enter customer name: ");
-			sc.nextLine(); //skip this
-			String name = sc.nextLine();
+			String name = sc.next();
 			System.out.println("Enter password: ");
 			String pass = sc.next();
 			//customer login
@@ -65,8 +64,7 @@ public class MenuService {
 		case 2:
 			System.out.println("******Vendor Login******");
 			System.out.println("Enter vendor name: ");
-			sc.nextLine(); //skip this
-			name = sc.nextLine();
+			name = sc.next();
 			System.out.println("Enter password: ");
 			pass = sc.next();
 			//vendor check
@@ -86,8 +84,7 @@ public class MenuService {
 			System.out.println("2. Vendor");
 			System.out.println("Enter which account to create: ");
 			input = sc.nextInt();
-			//db.addNew(input);
-			
+			db.addNew(input);			
 			
 			break;
 			
@@ -109,8 +106,8 @@ public class MenuService {
 		List<Customer> customerList = db.fetchCustomers();
 		
 		for (Customer c : customerList) {
-			if (c.getName() == name) {
-				if (c.getPassword() == pass) {
+			if (c.getName().equals(name)) {
+				if (c.getPassword().equals(pass)) {
 					return true;
 				}
 				else return false;
@@ -124,8 +121,8 @@ public class MenuService {
 		List<Vendor> vendorList = db.fetchVendors();
 		
 		for (Vendor v : vendorList) {
-			if (v.getVendorName() == name) {
-				if (v.getPassword() == pass) {
+			if (v.getVendorName().equals(name)) {
+				if (v.getPassword().equals(pass)) {
 					return true;
 				}
 				else return false;
