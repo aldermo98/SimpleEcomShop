@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.main.db.DB;
 import com.main.model.Customer;
+import com.main.model.Product;
 import com.main.model.Vendor;
 
 public class MenuService {
@@ -18,7 +19,7 @@ public class MenuService {
 		System.out.println("1. Customer Login");
 		System.out.println("2. Vendor Login");
 		System.out.println("3. Create new account");
-		System.out.println("4. View as guest");
+		System.out.println("4. View inventory");
 		System.out.println("0. Exit");
 		System.out.println("Enter your choice: ");
 		
@@ -89,10 +90,31 @@ public class MenuService {
 			break;
 			
 		case 4:
-			System.out.println("******Displaying all products******");
-			//System.out.println(productsDisplay);
+			System.out.println("******View Inventory******");
+			System.out.println("1. View all");
+			System.out.println("2. Filter results");
+			System.out.println("Enter one of the above options: ");
 			
+			List<Product> list;
+			input = sc.nextInt();
+			if(input == 2) {
+				System.out.println("Enter a column to filter by: ");
+				String columnFilter = sc.next();
+				
+				System.out.println("Enter a string to filter by: ");
+				String stringFilter = sc.next();
+				
+				list = db.fetchInventory(columnFilter, stringFilter);
+			}else {
+				list = db.fetchInventory();
+			}
 			
+			System.out.println("------------------------------------------------------------------------------------------------");
+			for(Product p : list) {
+				System.out.println(p.toString());
+				System.out.println("------------------------------------------------------------------------------------------------");
+			}
+			System.out.println();
 			break;
 		
 		default:

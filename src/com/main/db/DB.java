@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.main.model.Customer;
+import com.main.model.Product;
 import com.main.model.Vendor;
 
 public class DB {
@@ -166,6 +167,35 @@ public class DB {
 			System.out.println("Invalid input");
 		}
 		dbClose();
+	}
+
+	//case 4
+	public List<Product> fetchInventory(String ...args) {
+		dbConnect();
+		List<Product> list = new ArrayList<>();
+		String sql = "select * from product";
+		
+		if(args.length > 0) 
+			sql = sql.concat(" where " + args[0] + " like \"%" + args[1] + "%\"");
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet  rst = pstmt.executeQuery();
+			
+			while(rst.next()) {
+				list.add(
+					new Product(rst.getInt("id"), 
+					rst.getString("productName"), 
+					rst.getInt("quantity"), 
+					rst.getDouble("price"),
+					rst.getInt("vendor_id"))
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dbClose();
+		return list;
 	}
 	
 }
