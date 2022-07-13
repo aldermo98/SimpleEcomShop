@@ -1,12 +1,10 @@
 package com.main;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import com.main.db.DB;
+import com.main.model.Customer;
 import com.main.model.Product;
 
 public class CustomerMenuService {
@@ -29,7 +27,7 @@ public class CustomerMenuService {
 		return input;
 	}
 
-	public void processMenuInput(int customerInput) {
+	public void processMenuInput(int customerInput, Customer c) {
 		// TODO Auto-generated method stub
 		switch(customerInput) {
 		case 1:
@@ -88,12 +86,11 @@ public class CustomerMenuService {
 			}
 			
 			//check if user can purchase it
-			double balance = 100; //temp value
 			double price = quantity*list2.get(0).getPrice();
-			if(price>balance) {
+			if(price>c.getBalance()) {
 				System.out.println("Error: Not enough balance");
 				System.out.println("The price is "+price);
-				System.out.println("Your current balance is "+balance);
+				System.out.println("Your current balance is "+c.getBalance());
 				break;
 			}
 			
@@ -109,8 +106,23 @@ public class CustomerMenuService {
 			break;
 			
 		case 4:
+			System.out.println("*******Current Balance*******");
+			System.out.println("$"+c.getBalance());
+			System.out.println("1. Add balance");
+			System.out.println("2. Return to customer menu");
+			input = sc.nextInt();
+			if (input == 1) {
+				System.out.println("How much to add to balance?");
+				double addition = sc.nextDouble();
+				c.setBalance(c.getBalance() + addition);
+				System.out.println("Your balance is now $"+c.getBalance());
+				System.out.println("Returning to customer menu...");
+			}
 			break;
 			
+		case 5:
+			break;
+						
 		default:
 			System.out.println("Invalid input");
 			break;

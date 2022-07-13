@@ -49,11 +49,16 @@ public class MenuService {
 		                System.out.println("Exiting...");
 		                break;
 		            }
+		            else if(customerInput==6) {
+		            	System.out.println("Logging out...");
+		            	break;
+		            }
 		            else if(customerInput==7) {
 		            	System.out.println("Exiting to E-Commerce Main Menu");
 		            	break;
 		            }
-		            customerMenuService.processMenuInput(customerInput);
+		            Customer c = db.getCustomer(name);
+		            customerMenuService.processMenuInput(customerInput, c);
 		        }
 				
 			}
@@ -72,6 +77,25 @@ public class MenuService {
 			if (vendorLogin(name, pass)) {
 				System.out.println("Welcome " + name);
 				//go to vendor Menu
+				VendorMenuService vendorMenuService = new VendorMenuService();
+				while(true) {
+		            int vendorInput = vendorMenuService.displayVendorMenuAndReadInput();
+		            if(vendorInput == 0) {
+		                System.out.println("Exiting...");
+		                break;
+		            }
+		            else if(vendorInput==6) {
+		            	System.out.println("Logging out...");
+		            	break;
+		            }
+		            else if(vendorInput==7) {
+		            	System.out.println("Exiting to E-Commerce Main Menu");
+		            	break;
+		            }
+		            
+		            Vendor v = db.getVendor(name);
+		            vendorMenuService.processMenuInput(vendorInput, v);
+		        }
 			}
 			else {
 				System.out.println("Incorrect login");

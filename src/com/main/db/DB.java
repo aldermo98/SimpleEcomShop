@@ -198,4 +198,49 @@ public class DB {
 		return list;
 	}
 	
+	public Customer getCustomer(String name) {
+		dbConnect();
+		String sql="select * from customer where name=?";
+		Customer c = new Customer();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			
+			ResultSet rst = pstmt.executeQuery();
+			c.setId(rst.getInt("id"));
+			c.setName(name);
+			c.setBalance(rst.getDouble("balance"));
+			c.setPassword("password");
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		dbClose();
+		return c;
+	}
+	
+	public Vendor getVendor(String name) {
+		dbConnect();
+		String sql="select * from customer where name=?";
+		Vendor v = new Vendor();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			
+			ResultSet rst = pstmt.executeQuery();
+			v.setId(rst.getInt("id"));
+			v.setVendorName(name);
+			v.setBalance(rst.getDouble("balance"));
+			v.setPassword("password");
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		dbClose();
+		return v;
+	}
 }
