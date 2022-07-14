@@ -1,5 +1,7 @@
 package com.main;
 
+import com.main.service.MenuService;
+
 public class App {
 	public static void main(String[]args) {
 				
@@ -15,4 +17,3 @@ public class App {
         }
 	}
 }
-

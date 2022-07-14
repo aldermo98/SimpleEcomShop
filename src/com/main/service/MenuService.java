@@ -1,4 +1,4 @@
-package com.main;
+package com.main.service;
 
 import java.util.List;
 import java.util.Scanner;
@@ -69,13 +69,13 @@ public class MenuService {
 			}
 			
 			break;
-		case 2:
+		case 2:			
 			System.out.println("******Vendor Login******");
 			System.out.println("Enter vendor name: ");
 			name = sc.next();
 			System.out.println("Enter password: ");
 			pass = sc.next();
-			//vendor check
+			
 			if (vendorLogin(name, pass)) {
 				System.out.println("Welcome " + name);
 				//go to vendor Menu
