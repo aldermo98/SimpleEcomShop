@@ -27,84 +27,87 @@ public class CustomerMenuService {
 		return input;
 	}
 
+
 	public void processMenuInput(int customerInput, Customer c) {
+
 		// TODO Auto-generated method stub
-		switch(customerInput) {
+		switch (customerInput) {
 		case 1:
 			System.out.println("******View Inventory******");
 			System.out.println("1. View all");
 			System.out.println("2. Filter results");
 			System.out.println("Enter one of the above options: ");
-			
+
 			List<Product> list;
 			int input = sc.nextInt();
-			if(input == 2) {
+			if (input == 2) {
 				System.out.println("Enter a column to filter by: ");
 				String columnFilter = sc.next();
-				
+
 				System.out.println("Enter a string to filter by: ");
 				String stringFilter = sc.next();
-				
+
 				list = db.fetchInventory(columnFilter, stringFilter);
-			}else {
+			} else {
 				list = db.fetchInventory();
 			}
-			
-			System.out.println("------------------------------------------------------------------------------------------------");
-			for(Product p : list) {
+
+			System.out.println(
+					"------------------------------------------------------------------------------------------------");
+			for (Product p : list) {
 				System.out.println(p.toString());
-				System.out.println("------------------------------------------------------------------------------------------------");
+				System.out.println(
+						"------------------------------------------------------------------------------------------------");
 			}
 			System.out.println();
 			break;
-		
-		
+
 		case 2:
 			sc.nextLine();
 			System.out.println("Enter product name: ");
 			String inp = sc.next();
-			//Return list of that productName
+			// Return list of that productName
 			List<Product> list2;
-			list2 = db.fetchInventory(inp,"productName");
-			System.out.println("------------------------------------------------------------------------------------------------");
-			for(Product p : list2) {
+			list2 = db.fetchInventory("productName", inp);
+			System.out.println(
+					"------------------------------------------------------------------------------------------------");
+			for (Product p : list2) {
 				System.out.println(p.toString());
-				System.out.println("------------------------------------------------------------------------------------------------");
+				System.out.println(
+						"------------------------------------------------------------------------------------------------");
 			}
-			//check if quantity is available
+			// check if quantity is available
 			int quantity = list2.get(0).getQuantity();
-			if(quantity<=0) {
+			if (quantity <= 0) {
 				System.out.println("Error: Out of Stock");
 				break;
 			}
-			
+
 			System.out.println("Enter quantity: ");
-			input = sc.nextInt();
-			if(input>quantity||input==0) {
+			int inputQuantity = sc.nextInt();
+			if (inputQuantity > quantity || inputQuantity == 0) {
 				System.out.println("Error: Quantity not available");
 				break;
 			}
 			
-			//check if user can purchase it
-			double price = quantity*list2.get(0).getPrice();
-			if(price>c.getBalance()) {
+			double price = inputQuantity * list2.get(0).getPrice();
+			if (price > c.getBalance()) {
 				System.out.println("Error: Not enough balance");
-				System.out.println("The price is "+price);
-				System.out.println("Your current balance is "+c.getBalance());
+				System.out.println("The price is " + price);
+				System.out.println("Your current balance is " + c.getBalance());
+
 				break;
 			}
-			
-			System.out.println("You have completed the purchase");
-			//Need a DB.java method
+			else {
+				db.insertPurchase(c, list2.get(0));
+				System.out.println("You have completed the purchase");
+			}
 
-			
-			
-			
 			break;
-			
+
 		case 3:
 			break;
-			
+
 		case 4:
 			System.out.println("*******Current Balance*******");
 			System.out.println("$"+c.getBalance());
@@ -119,6 +122,7 @@ public class CustomerMenuService {
 				System.out.println("Returning to customer menu...");
 			}
 			break;
+
 			
 		case 5:
 			break;
@@ -127,7 +131,6 @@ public class CustomerMenuService {
 			System.out.println("Invalid input");
 			break;
 		}
-		
-		}
-	}
 
+	}
+}

@@ -57,8 +57,10 @@ public class MenuService {
 		            	System.out.println("Exiting to E-Commerce Main Menu");
 		            	break;
 		            }
+
 		            Customer c = db.getCustomer(name);
 		            customerMenuService.processMenuInput(customerInput, c);
+
 		        }
 				
 			}

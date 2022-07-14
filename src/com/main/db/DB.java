@@ -42,10 +42,6 @@ public class DB {
 		}
 	}
 
-	
-	/*
-	 *  
-	 */
 	public void insertCustomer(Customer customer) {
 		 dbConnect();
 		 String sql="insert into customer(name,password,balance) "
@@ -75,6 +71,30 @@ public class DB {
 			pstmt.setString(1, vendor.getVendorName());
 			pstmt.setString(2, vendor.getPassword());
 			pstmt.setDouble(3, vendor.getBalance());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 
+		 dbClose();
+	}
+	
+	public void insertPurchase(Customer customer, Product product) {
+		dbConnect();
+		 String sql="insert into product_customer"
+		 		+ "(product_id, productName, quantity, price, customer_id,vendor_id) "
+		 		+ "values (?,?,?,?,?,?)";
+		 
+		 try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, product.getId());
+			pstmt.setString(2, product.getProductName());
+			pstmt.setInt(3, product.getQuantity());
+			pstmt.setDouble(3, product.getPrice());
+			pstmt.setInt(4, customer.getId());
+			pstmt.setInt(5, product.getVendor_id());
 			
 			pstmt.executeUpdate();
 			
