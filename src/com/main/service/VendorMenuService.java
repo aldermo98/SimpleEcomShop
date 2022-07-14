@@ -3,6 +3,7 @@ package com.main.service;
 import java.util.Scanner;
 
 import com.main.db.DB;
+import com.main.model.Vendor;
 
 public class VendorMenuService {
 
@@ -22,7 +23,7 @@ public class VendorMenuService {
 		return input;
 	}
 
-	public void processMenuInput(int input) {
+	public void processMenuInput(int input, Vendor v) {
 		switch(input) {
 			case 1:
 				System.out.println("***View/Approve orders***");
@@ -51,6 +52,17 @@ public class VendorMenuService {
 				
 			case 3:
 				System.out.println("***Check balance***");
+				System.out.println("$"+v.getBalance());
+				System.out.println("1. Add balance");
+				System.out.println("2. Return to vendor menu");
+				input = sc.nextInt();
+				if (input == 1) {
+					System.out.println("How much to add to balance?");
+					double addition = sc.nextDouble();
+					v.setBalance(v.getBalance() + addition);
+					System.out.println("Your balance is now $"+v.getBalance());
+					System.out.println("Returning to vendor menu...");
+				}
 				break;
 				
 			case 4:

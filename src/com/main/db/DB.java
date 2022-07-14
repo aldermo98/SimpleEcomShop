@@ -42,6 +42,10 @@ public class DB {
 		}
 	}
 
+	
+	/*
+	 *  
+	 */
 	public void insertCustomer(Customer customer) {
 		 dbConnect();
 		 String sql="insert into customer(name,password,balance) "
@@ -263,51 +267,4 @@ public class DB {
 		dbClose();
 		return v;
 	}
-	
-	public void addProduct(Product product) {
-		 dbConnect();
-		 String sql="insert into product(productName,quantity,price,vendor_id) "
-		 		+ "values (?,?,?,?)";
-		 
-		 try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, product.getProductName());
-			pstmt.setInt(2, product.getQuantity());
-			pstmt.setDouble(3, product.getPrice());
-			pstmt.setInt(3, product.getVendor_id());
-			
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		 
-		 dbClose();
-	}
-
-	public List<Product> fetchInventoryByVendor() {
-		dbConnect();
-		List<Product> list = new ArrayList<>();
-		String sql = "select * from product where ";
-				
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			ResultSet  rst = pstmt.executeQuery();
-			
-			while(rst.next()) {
-				list.add(
-					new Product(rst.getInt("id"), 
-					rst.getString("productName"), 
-					rst.getInt("quantity"), 
-					rst.getDouble("price"),
-					rst.getInt("vendor_id"))
-				);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		dbClose();
-		return list;
-	}
-	
 }
