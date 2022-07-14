@@ -53,7 +53,7 @@ public class MenuService {
 		            	System.out.println("Exiting to E-Commerce Main Menu");
 		            	break;
 		            }
-		            customerMenuService.processMenuInput(customerInput);
+		            customerMenuService.processMenuInput(customerInput, name);
 		        }
 				
 			}
