@@ -68,6 +68,10 @@ public class CustomerMenuService {
 			// Return list of that productName
 			List<Product> list2;
 			list2 = db.fetchInventory("productName", inp);
+			if (list2.isEmpty()) {
+				System.out.println("Product not found");
+				break;
+			}
 			System.out.println(
 					"------------------------------------------------------------------------------------------------");
 			for (Product p : list2) {
