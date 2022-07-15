@@ -66,7 +66,7 @@ public class DB {
 	public void insertVendor(Vendor vendor) {
 		 dbConnect();
 		 String sql="insert into vendor(VendorName,password,balance) "
-		 		+ "values (?,?,?,?)";
+		 		+ "values (?,?,?)";
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
