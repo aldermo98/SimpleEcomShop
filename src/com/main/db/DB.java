@@ -83,7 +83,7 @@ public class DB {
 		 dbClose();
 	}
 	
-	public void insertPurchase(Customer customer, Product product, int newQuantity) {
+	public void insertPurchase(Customer customer, Product product, int quantity, int inputQuantity) {
 		dbConnect();
 		 String sql="insert into product_customer"
 		 		+ "(purchases_id, product_id, productName, quantity, price, customer_id,vendor_id, approval_status) "
@@ -91,17 +91,17 @@ public class DB {
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
+			purchaseID++;
 			pstmt.setInt(1, purchaseID);
 			pstmt.setInt(2, product.getId());
 			pstmt.setString(3, product.getProductName());
-			pstmt.setInt(4, product.getQuantity());
+			pstmt.setInt(4, inputQuantity);
 			pstmt.setDouble(5, product.getPrice());
 			pstmt.setInt(6, customer.getId());
 			pstmt.setInt(7, product.getVendor_id());
 			pstmt.setBoolean(8, false);
 			
 			pstmt.executeUpdate();
-			purchaseID++;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,7 +111,7 @@ public class DB {
 		sql="update product set quantity=? where id=?";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, newQuantity);
+			pstmt.setInt(1, quantity-inputQuantity);
 			pstmt.setInt(2, product.getId());
 			
 			pstmt.executeUpdate();
