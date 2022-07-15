@@ -321,8 +321,8 @@ public class DB {
 			pstmt.setInt(1, id);
 			ResultSet rst = pstmt.executeQuery();
 			while(rst.next()) {
-				v.setId(rst.getInt(id));
-				v.setVendorName("vendorName");
+				v.setId(id);
+				v.setVendorName(rst.getString("vendorName"));
 				v.setBalance(rst.getDouble("balance"));
 				v.setPassword(rst.getString("password"));
 			}
@@ -462,7 +462,6 @@ public class DB {
 
 	public void updateVendorBalanceFromPurchase(Product p, double price) {
 		dbConnect();
-		
 		Vendor v = getVendorById(p.getVendor_id());
 		try {
 			if(con.isClosed())
@@ -472,7 +471,7 @@ public class DB {
 			e1.printStackTrace();
 		}
 		String sql = "UPDATE vendor SET balance=? WHERE id=?";
-				
+		System.out.println(v.getBalance() + price);
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setDouble(1, v.getBalance() + price);
