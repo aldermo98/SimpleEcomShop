@@ -107,12 +107,14 @@ public class CustomerMenuService {
 
 				try {
 					db.updateCustomerBalance(c);
+					
 					System.out.println("Your balance is now $" + c.getBalance());
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 				
 				db.insertPurchase(c, list2.get(0), quantity, inputQuantity);
+				db.updateVendorBalanceFromPurchase(list2.get(0), price);
 				System.out.println("You have completed the purchase");
 			}
 

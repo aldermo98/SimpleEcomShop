@@ -120,7 +120,13 @@ public class VendorMenuService {
 						System.out.println("How much to add to balance?");
 						double addition = sc.nextDouble();
 						v.setBalance(v.getBalance() + addition);
-						System.out.println("Your balance is now $"+v.getBalance());
+						
+						try {
+							db.updateVendorBalance(v);
+							System.out.println("Your balance is now $" + v.getBalance());
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
 						System.out.println("Returning to vendor menu...");
 					}else if(input != 2){
 						System.out.println("Please enter a valid choice: ");

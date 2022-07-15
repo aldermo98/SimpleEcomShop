@@ -16,7 +16,7 @@ import com.main.model.Vendor;
 
 public class DB {
 	Connection con; 
-	private int purchaseID=0;
+	//private int purchaseID=0;
 	
 	public void dbConnect() {
 		try {
@@ -86,20 +86,20 @@ public class DB {
 	public void insertPurchase(Customer customer, Product product, int quantity, int inputQuantity) {
 		dbConnect();
 		 String sql="insert into product_customer"
-		 		+ "(purchases_id, product_id, productName, quantity, price, customer_id,vendor_id, approval_status) "
-		 		+ "values (?,?,?,?,?,?,?,?)";
+		 		+ "(product_id, productName, quantity, price, customer_id,vendor_id, approval_status) "
+		 		+ "values (?,?,?,?,?,?,?)";//purchases_id
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			purchaseID++;
-			pstmt.setInt(1, purchaseID);
-			pstmt.setInt(2, product.getId());
-			pstmt.setString(3, product.getProductName());
-			pstmt.setInt(4, inputQuantity);
-			pstmt.setDouble(5, product.getPrice());
-			pstmt.setInt(6, customer.getId());
-			pstmt.setInt(7, product.getVendor_id());
-			pstmt.setBoolean(8, false);
+			//purchaseID++;
+			//pstmt.setInt(1, purchaseID);
+			pstmt.setInt(1, product.getId());
+			pstmt.setString(2, product.getProductName());
+			pstmt.setInt(3, inputQuantity);
+			pstmt.setDouble(4, product.getPrice());
+			pstmt.setInt(5, customer.getId());
+			pstmt.setInt(6, product.getVendor_id());
+			pstmt.setBoolean(7, false);
 			
 			pstmt.executeUpdate();
 			
@@ -311,6 +311,32 @@ public class DB {
 		return v;
 	}
 	
+	public Vendor getVendorById(int id) {
+		dbConnect();
+		String sql="select * from vendor where id=?";
+		Vendor v = new Vendor();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rst = pstmt.executeQuery();
+			while(rst.next()) {
+				v.setId(rst.getInt(id));
+				v.setVendorName("vendorName");
+				v.setBalance(rst.getDouble("balance"));
+				v.setPassword(rst.getString("password"));
+			}
+			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		dbClose();
+		return v;
+		
+	}
+	
 	public void addProduct(Product product) {
 		 dbConnect();
 		 String sql="insert into product(productName,quantity,price,vendor_id) "
@@ -417,6 +443,45 @@ public class DB {
 		}
 		dbClose();
 		
+	}
+	public void updateVendorBalance(Vendor v) {
+		dbConnect();
+		String sql = "UPDATE vendor SET balance=? WHERE id=?";
+				
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setDouble(1, v.getBalance());
+			pstmt.setInt(2, v.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dbClose();
+	}
+	
+
+	public void updateVendorBalanceFromPurchase(Product p, double price) {
+		dbConnect();
+		
+		Vendor v = getVendorById(p.getVendor_id());
+		try {
+			if(con.isClosed())
+				dbConnect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String sql = "UPDATE vendor SET balance=? WHERE id=?";
+				
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setDouble(1, v.getBalance() + price);
+			pstmt.setInt(2, v.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dbClose();
 	}
 
 	public List<Orders> fetchCustomerOrderHistory(Customer c) {
