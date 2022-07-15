@@ -1,6 +1,5 @@
 package com.main.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,9 +20,7 @@ public class CustomerMenuService {
 		System.out.println("3. Update Purchase");
 		System.out.println("4. View/Edit Balance");
 		System.out.println("5. View Past Purchases");
-		System.out.println("6. Logout");
-		System.out.println("7. E-Commerce Main Menu");
-		System.out.println("0. Exit");
+		System.out.println("0. Logout");
 
 		int input = sc.nextInt();
 		return input;

@@ -46,18 +46,10 @@ public class MenuService {
 				while(true) {
 		            int customerInput = customerMenuService.displayCustomerMenuAndReadInput();
 		            if(customerInput == 0) {
-		                System.out.println("Exiting...");
+		                System.out.println("Logging out...");
 		                break;
 		            }
-		            else if(customerInput==6) {
-		            	System.out.println("Logging out...");
-		            	break;
-		            }
-		            else if(customerInput==7) {
-		            	System.out.println("Exiting to E-Commerce Main Menu");
-		            	break;
-		            }
-
+		            
 		            Customer c = db.getCustomer(name);
 		            customerMenuService.processMenuInput(customerInput, c);
 
@@ -84,17 +76,10 @@ public class MenuService {
 				while(true) {
 		            int vendorInput = vendorMenuService.displayVendorMenuAndReadInput();
 		            if(vendorInput == 0) {
-		                System.out.println("Exiting...");
+		                System.out.println("Logging out...");
 		                break;
 		            }
-		            else if(vendorInput==6) {
-		            	System.out.println("Logging out...");
-		            	break;
-		            }
-		            else if(vendorInput==7) {
-		            	System.out.println("Exiting to E-Commerce Main Menu");
-		            	break;
-		            }
+		            
 		            
 		            Vendor v = db.getVendor(name);
 		            vendorMenuService.processMenuInput(vendorInput, v);

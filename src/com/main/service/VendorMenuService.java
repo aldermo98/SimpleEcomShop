@@ -129,13 +129,9 @@ public class VendorMenuService {
 					break;
 				}
 				break;
-								
-			case 0:
-				System.exit(0);
-				break;
 		
 			default: System.out.println("Not a valid input.");
 		}
-		displayVendorMenuAndReadInput();
+		//displayVendorMenuAndReadInput();
 	}
 }
