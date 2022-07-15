@@ -110,8 +110,8 @@ public class CustomerMenuService {
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
-
-				db.insertPurchase(c, list2.get(0), inputQuantity);
+				
+				db.insertPurchase(c, list2.get(0), quantity-inputQuantity);
 				System.out.println("You have completed the purchase");
 			}
 

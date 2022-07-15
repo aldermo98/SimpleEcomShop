@@ -1,6 +1,7 @@
 package com.main.model;
 
 public class Orders {
+	private int purchases_id;
 	private int product_id;
 	private String product_name;
 	private int quantity;
@@ -9,9 +10,10 @@ public class Orders {
 	private int customer_id;
 	private boolean approval_status;
 
-	public Orders(int product_id, String product_name, int quantity, double price, int vendor_id, int customer_id,
+	public Orders(int purchases_id, int product_id, String product_name, int quantity, double price, int vendor_id, int customer_id,
 			boolean approval_status) {
 		super();
+		this.purchases_id = purchases_id;
 		this.product_id = product_id;
 		this.product_name = product_name;
 		this.quantity = quantity;

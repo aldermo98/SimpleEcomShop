@@ -16,6 +16,7 @@ import com.main.model.Vendor;
 
 public class DB {
 	Connection con; 
+	private int purchaseID=0;
 	
 	public void dbConnect() {
 		try {
@@ -43,10 +44,6 @@ public class DB {
 		}
 	}
 
-	
-	/*
-	 *  
-	 */
 	public void insertCustomer(Customer customer) {
 		 dbConnect();
 		 String sql="insert into customer(name,password,balance) "
@@ -89,20 +86,22 @@ public class DB {
 	public void insertPurchase(Customer customer, Product product, int newQuantity) {
 		dbConnect();
 		 String sql="insert into product_customer"
-		 		+ "(product_id, productName, quantity, price, customer_id,vendor_id, approval_status) "
-		 		+ "values (?,?,?,?,?,?,?)";
+		 		+ "(purchases_id, product_id, productName, quantity, price, customer_id,vendor_id, approval_status) "
+		 		+ "values (?,?,?,?,?,?,?,?)";
 		 
 		 try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, product.getId());
-			pstmt.setString(2, product.getProductName());
-			pstmt.setInt(3, product.getQuantity());
-			pstmt.setDouble(4, product.getPrice());
-			pstmt.setInt(5, customer.getId());
-			pstmt.setInt(6, product.getVendor_id());
-			pstmt.setBoolean(7, false);
+			pstmt.setInt(1, purchaseID);
+			pstmt.setInt(2, product.getId());
+			pstmt.setString(3, product.getProductName());
+			pstmt.setInt(4, product.getQuantity());
+			pstmt.setDouble(5, product.getPrice());
+			pstmt.setInt(6, customer.getId());
+			pstmt.setInt(7, product.getVendor_id());
+			pstmt.setBoolean(8, false);
 			
 			pstmt.executeUpdate();
+			purchaseID++;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -386,6 +385,7 @@ public class DB {
 			while(rst.next()) {
 				list.add(
 					new Orders(
+						rst.getInt("purchases_id"),
 						rst.getInt("product_id"), 
 						rst.getString("productName"), 
 						rst.getInt("quantity"), 
@@ -432,6 +432,7 @@ public class DB {
 			while(rst.next()) {
 				list.add(
 					new Orders(
+						rst.getInt("purchases_id"),
 						rst.getInt("product_id"), 
 						rst.getString("productName"), 
 						rst.getInt("quantity"), 
