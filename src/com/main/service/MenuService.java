@@ -78,6 +78,7 @@ public class MenuService {
 			
 			if (vendorLogin(name, pass)) {
 				System.out.println("Welcome " + name);
+				
 				//go to vendor Menu
 				VendorMenuService vendorMenuService = new VendorMenuService();
 				while(true) {

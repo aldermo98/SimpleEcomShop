@@ -1,10 +1,12 @@
 package com.main.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.main.db.DB;
 import com.main.model.Customer;
+import com.main.model.Orders;
 import com.main.model.Product;
 
 public class CustomerMenuService {
@@ -16,7 +18,7 @@ public class CustomerMenuService {
 		System.out.println("******Customer Main Menu******");
 		System.out.println("1. View Inventory");
 		System.out.println("2. Buy Item");
-		System.out.println("3. Cancel Purchase");
+		System.out.println("3. Update Purchase");
 		System.out.println("4. View/Edit Balance");
 		System.out.println("5. View Past Purchases");
 		System.out.println("6. Logout");
@@ -63,6 +65,7 @@ public class CustomerMenuService {
 			break;
 
 		case 2:
+			System.out.println("******Buy Item******");
 			sc.nextLine();
 			System.out.println("Enter product name: ");
 			String inp = sc.next();
@@ -91,6 +94,7 @@ public class CustomerMenuService {
 			}
 			
 			double price = inputQuantity * list2.get(0).getPrice();
+			list2.get(0).setPrice(price);
 			if (price > c.getBalance()) {
 				System.out.println("Error: Not enough balance");
 				System.out.println("The price is " + price);
@@ -99,13 +103,32 @@ public class CustomerMenuService {
 				break;
 			}
 			else {
-				db.insertPurchase(c, list2.get(0));
+				db.insertPurchase(c, list2.get(0), inputQuantity);
 				System.out.println("You have completed the purchase");
 			}
 
 			break;
 
 		case 3:
+			System.out.println("***Update Purchase***");
+			try {
+				for(Orders o : db.fetchCustomerOrderHistory(c)) {
+					System.out.println(o.toString());
+					System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			System.out.println("Enter the product name of which you would like to cancel or update: ");
+			String productName = sc.next();
+			
+			System.out.println("Enter 'x' to cancel this order or a new quantity for this order: ");
+			String updateVal = sc.next();
+			
+			Product p = db.getProduct(productName);
+			
+			db.updatePurchase(c.getId(), p, updateVal);
+			
 			break;
 
 		case 4:
@@ -118,13 +141,30 @@ public class CustomerMenuService {
 				System.out.println("How much to add to balance?");
 				double addition = sc.nextDouble();
 				c.setBalance(c.getBalance() + addition);
-				System.out.println("Your balance is now $"+c.getBalance());
+				
+				try {
+					db.updateCustomerBalance(c);
+					System.out.println("Your balance is now $"+c.getBalance());
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				
+				
 				System.out.println("Returning to customer menu...");
 			}
 			break;
 
 			
 		case 5:
+			System.out.println("***View Past Purchase***");
+			try {
+				for(Orders o : db.fetchCustomerOrderHistory(c)) {
+					System.out.println(o.toString());
+					System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 			break;
 						
 		default:

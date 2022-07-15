@@ -8,9 +8,19 @@ public class Product {
 	private double price;
 	private int vendor_id;
 	
+	public Product() {}
+	
 	public Product(int id, String productName, int quantity, double price, int vendor_id) {
 		super();
 		this.id = id;
+		this.productName = productName;
+		this.quantity = quantity;
+		this.price = price;
+		this.vendor_id = vendor_id;
+	}
+	
+	public Product(String productName, int quantity, double price, int vendor_id) {
+		super();
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
